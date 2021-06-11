@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using MartaShop.Core;
 using MartaShop.Core.Models;
+using MartaShop.Core.ViewModels;
 using MartaShop.DataAccess.InMemory;
 
 namespace MartaShop.WebUI.Controllers
@@ -12,10 +13,12 @@ namespace MartaShop.WebUI.Controllers
     public class ProductManagerController : Controller
     {
         ProductRepository context;
+        ProductCategoryRepository productCategories;
 
         public ProductManagerController()
         {
             context = new ProductRepository();
+            productCategories = new ProductCategoryRepository();
         }
         // GET: ProductManager
         public ActionResult Index()
@@ -26,8 +29,10 @@ namespace MartaShop.WebUI.Controllers
 
         public ActionResult Create()
         {
-            Product product = new Product();
-            return View(product);
+            ProductManagerViewModel viewModel = new ProductManagerViewModel();
+            viewModel.Product  = new Product();
+            viewModel.ProductCategories = productCategories.Collection();
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -54,7 +59,11 @@ namespace MartaShop.WebUI.Controllers
             }
             else
             {
-                return View(product);
+                ProductManagerViewModel viewModel = new ProductManagerViewModel();
+                viewModel.Product = product;
+                viewModel.ProductCategories = productCategories.Collection();
+                return View(viewModel);
+                
             }
         }
 
