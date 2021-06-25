@@ -1,4 +1,5 @@
-﻿using MartaShop.Core.Models;
+﻿using MartaShop.Core.Contracts;
+using MartaShop.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MartaShop.DataAccess.InMemory
 {
-    public class InMemoryRepository <T> where T: BaseEntity
+    public class InMemoryRepository<T> : IRepository<T> where T : BaseEntity
     {
         ObjectCache cache = MemoryCache.Default;
         List<T> items;
@@ -19,7 +20,7 @@ namespace MartaShop.DataAccess.InMemory
             className = typeof(T).Name;
             items = cache[className] as List<T>;
 
-            if(items == null)
+            if (items == null)
             {
                 items = new List<T>();
             }
@@ -40,7 +41,7 @@ namespace MartaShop.DataAccess.InMemory
         public void Update(T t)
         {
             T tToUpdate = items.Find(i => i.Id == t.Id);
-            if(tToUpdate != null)
+            if (tToUpdate != null)
             {
                 tToUpdate = t;
             }
@@ -53,7 +54,7 @@ namespace MartaShop.DataAccess.InMemory
         public T Find(string Id)
         {
             T t = items.Find(i => i.Id == Id);
-            if(t != null)
+            if (t != null)
             {
                 return t;
             }
