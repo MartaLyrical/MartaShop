@@ -9,7 +9,7 @@ namespace MartaShop.DataAccess.SQL.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(MartaShop.DataAccess.SQL.DataContext context)
